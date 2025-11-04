@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @group Categories
@@ -28,7 +26,7 @@ class CategoryController extends Controller
     {
         abort_if(! auth()->user()->tokenCan('categories-list'), 403);
 
-        return CategoryResource::collection(Category::all());
+        return CategoryResource::collection(Category::where('id', '>', 5)->get());
     }
 
     public function list()
@@ -38,7 +36,7 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        abort_if(! auth()->user()->tokenCan('categories-show'), 403);
+        //abort_if(! auth()->user()->tokenCan('categories-show'), 403);
 
         return new CategoryResource($category);
     }
