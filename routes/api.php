@@ -11,8 +11,12 @@ Route::get('/user', function (Request $request) {
 
 Route::get('lists/categories', [CategoryController::class, 'list']);
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::apiResource('categories', CategoryController::class);
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:api');
 
-    Route::get('products', [ProductController::class, 'index']);
-});
+Route::apiResource('categories', CategoryController::class)
+    ->middleware('auth:api');
+
+Route::get('products', [ProductController::class, 'index']);
+
