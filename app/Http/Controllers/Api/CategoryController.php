@@ -14,6 +14,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
+        abort_if(! auth()->user()->tokenCan('categories-list'), 403);
+
         return CategoryResource::collection(Category::all());
     }
 
@@ -24,6 +26,8 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
+        abort_if(! auth()->user()->tokenCan('categories-show'), 403);
+
         return new CategoryResource($category);
     }
 
